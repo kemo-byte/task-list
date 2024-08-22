@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class Task{
@@ -86,4 +87,8 @@ Route::get('/tasks/{id}', function($id) use ($tasks){
 
 Route::fallback(function(){
     return 'stil got somewhere !';
+});
+
+Route::get('test',function(){
+    return DB::table('users')->get();
 });
