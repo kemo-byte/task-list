@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -14,16 +15,12 @@ Route::get('/', function() {
 
 Route::get('/tasks', function (){
     return view('index',[
-        'tasks' => \App\Models\Task::latest()->get()
+        'tasks' => Task::get()
     ]);
 })->name('tasks.index');
 
-Route::post('/tasks', function(Request $request) {
-    $data = $request->validate([
-        'title' => 'required|max:255',
-        'description' => 'required',
-        'long_description' => 'required'
-    ]);
+Route::post('/tasks', function(TaskRequest $request) {
+    $data = $request->validated();
     $task = new TasK;
     $task->title = $data['title'];
     $task->description = $data['description'];
@@ -33,14 +30,8 @@ Route::post('/tasks', function(Request $request) {
     return redirect()->route('tasks.show',['id' => $task->id])->with('success','Task created successfully!');
 })->name('tasks.store');
 
-Route::put('/tasks/{id}', function($id,Request $request) {
-
-    $data = $request->validate([
-        'title' => 'required|max:255',
-        'description' => 'required',
-        'long_description' => 'required'
-    ]);
-    $task = Task::findOrFail($id);
+Route::put('/tasks/{task}', function($task,TaskRequest $request) {
+    $data = $request->validated();
     $task->title = $data['title'];
     $task->description = $data['description'];
     $task->long_description = $data['long_description'];
@@ -51,14 +42,14 @@ Route::put('/tasks/{id}', function($id,Request $request) {
 
 Route::view('tasks/create','create')->name('tasks.create');
 
-Route::get('/tasks/{id}/edit', function($id){
+Route::get('/tasks/{task}/edit', function(Task $task){
 
-    return view('edit', ['task'=> \App\Models\Task::findOrFail($id)]);
+    return view('edit', ['task'=> $task]);
 })->name('tasks.edit');
 
-Route::get('/tasks/{id}', function($id){
+Route::get('/tasks/{task}', function(Task $task){
 
-    return view('show', ['task'=> \App\Models\Task::findOrFail($id)]);
+    return view('show', ['task'=> $task]);
 })->name('tasks.show');
 
 
