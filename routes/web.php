@@ -52,6 +52,18 @@ return redirect()->route('tasks.index')
 ->with('success','Task deleted successfully!');
 })->name('tasks.destroy');
 
+
+Route::put('tasks/{task}/toogle-complete', function(Task $task){
+    $task->toggleComplete();
+
+    return redirect()->back()->with('success', 'Task updated successfuly!');
+})->name('tasks.toggle-complete');
+
+
+
+
+
+
 Route::fallback(function(){
     return 'stil got somewhere !';
 });
