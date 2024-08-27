@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laravel 10 task List App</title>
-    <link rel="stylesheet" href="{{ asset('tailwind.min.css') }}">
+    <script src="{{ asset('tailwindcss.css') }}"></script>
 
     {{--blade-formatter-disable --}}
     <style type="text/tailwindcss">
@@ -17,8 +17,8 @@
        @apply font-medium text-gray-700 underline decoration-pink-500 
     }
 
-    lable {
-        @apply block uppercase text-slate-700 mb-2
+    label {
+        @apply block uppercase text-slate-700 mb-2 
     }
 
     input, textarea{

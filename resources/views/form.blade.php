@@ -23,8 +23,8 @@
         </div>
 
         <div>
-            <label for="description" class="block uppercase text-slate-700 mb-2">Description</label>
-            <textarea name="description" id="description"  rows="5" class="shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none  @error('description') border border-red-500 @enderror">{{ $task->description ?? old('description') }}</textarea>
+            <label for="description">Description</label>
+            <textarea name="description" id="description"  rows="5" >{{ $task->description ?? old('description') }}</textarea>
             @error('description')
                 <p class="text-red-500 text-sm">{{  $message  }}</p>
             @enderror
@@ -32,15 +32,15 @@
         
 
         <div>
-            <label for="long_description" class="block uppercase text-slate-700 mb-2">Long Description</label>
-            <textarea name="long_description" id="long_description"  rows="5" class="shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none  @error('long_description') border border-red-500 @enderror">{{ $task->long_description ?? old('long_description') }}</textarea>
+            <label for="long_description" >Long Description</label>
+            <textarea name="long_description" id="long_description"  rows="5" >{{ $task->long_description ?? old('long_description') }}</textarea>
             @error('long_description')
                 <p class="text-red-500 text-sm">{{  $message  }}</p>
             @enderror
         </div>
 
         <div class="flex items-center gap-2">
-            <button type="submit" class="rounded-md px-2 py-1 text-center font-medium text-slate-500 shadow-sm ring-1 ring-slate-700/10 hover:bg-gray-50">
+            <button type="submit" class="btn">
                 @isset($task)
                     Update Task
                 @else
