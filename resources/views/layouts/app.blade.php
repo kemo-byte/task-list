@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laravel 10 task List App</title>
+    <title>@yield('title','Task List')</title>
     <script src="{{ asset('tailwindcss.css') }}"></script>
 
     {{--blade-formatter-disable --}}
@@ -14,11 +14,11 @@
         @apply rounded-md px-2 py-1 text-center font-medium text-slate-500 shadow-sm ring-1 ring-slate-700/10 hover:bg-gray-50
     }
     .link{
-       @apply font-medium text-gray-700 underline decoration-pink-500 
+       @apply font-medium text-gray-700 underline decoration-pink-500
     }
 
     label {
-        @apply block uppercase text-slate-700 mb-2 
+        @apply block uppercase text-slate-700 mb-2
     }
 
     input, textarea{
@@ -38,10 +38,10 @@
     <h1 class="mb-4 text-2xl">@yield('title')</h1>
     <div x-data="{ s: true}">
         @if (session()->has('success'))
-            <div x-show="s" class="relative mb-10 rounded border border-green-400 bg-green-100 px-4 py-3 text-lg text-green-700" 
+            <div x-show="s" class="relative mb-10 rounded border border-green-400 bg-green-100 px-4 py-3 text-lg text-green-700"
             role="alert">
                 <strong class="font-bold">Success!</strong>
-                <div>{{  session('success')  }}</div> 
+                <div>{{  session('success')  }}</div>
 
                 <span class="absolute top-0 bottom-0 px-4 py-3 right-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
