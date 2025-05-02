@@ -43,21 +43,3 @@ php artisan migrate
 
 # Start the development server
 php artisan serve
-
-## 📸 Screenshots
-
-### Homepage
-![Homepage](https://raw.githubusercontent.com/kemo-byte/task-list/main/public/screenshots/one.png)
-
-
-### Add Task Form
-![Add Task](/public/screenshots/five.png)
-
-### Show Task Form
-![Show Task](/public/screenshots/two.png)
-
-### Edit Task Form
-![Edit Task](/public/screenshots/four.png)
-
-### Completed Task 
-![Completed Task](/public/screenshots/three.png)
