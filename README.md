@@ -47,7 +47,7 @@ php artisan serve
 ## 📸 Screenshots
 
 ### Homepage
-![Homepage](/public/screenshots/one.png?raw=true)
+![Homepage](https://raw.githubusercontent.com/kemo-byte/task-list/main//public/screenshots/one.png)
 
 ### Add Task Form
 ![Add Task](/public/screenshots/five.png)
