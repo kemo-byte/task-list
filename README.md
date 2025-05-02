@@ -1,21 +1,20 @@
-# Laravel Livewire Task List
+# Laravel Task List
 
-A simple and responsive task management application built with **Laravel** and **Livewire**. This project demonstrates the power of Livewire for building dynamic interfaces without writing custom JavaScript.
+A simple task management app built with **Laravel** and **Blade**. This project demonstrates basic CRUD functionality using Laravel's MVC architecture.
 
 ## 🚀 Features
 
-- Add, edit, and delete tasks
-- Real-time updates with Livewire
-- Mark tasks as completed or active
-- Responsive and clean UI
-- Lightweight and fast
+- Add new tasks
+- Edit and delete existing tasks
+- Mark tasks as completed
+- Simple and clean user interface
 
 ## 🛠️ Built With
 
 - [Laravel](https://laravel.com/)
-- [Livewire](https://livewire.laravel.com/)
-- [Bootstrap](https://getbootstrap.com/) (optional: mention if you're using it)
+- [Blade](https://laravel.com/docs/blade)
 - PHP 8+
+- MySQL or SQLite (your choice)
 
 ## 📦 Installation
 
@@ -25,20 +24,22 @@ Make sure you have PHP, Composer, and Laravel installed.
 # Clone the repository
 git clone https://github.com/kemo-byte/Laravel-livewire-task-list.git
 
-# Navigate into the project
+# Go into the project directory
 cd Laravel-livewire-task-list
 
 # Install dependencies
 composer install
 
-# Copy .env file and set your environment variables
+# Copy the .env file
 cp .env.example .env
 
-# Generate application key
+# Set your database details in the .env file
+
+# Generate app key
 php artisan key:generate
 
 # Run migrations
 php artisan migrate
 
-# Serve the app
+# Start the development server
 php artisan serve
