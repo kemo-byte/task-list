@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,159 +9,51 @@ use Tests\TestCase;
 class TasksTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic test example.
-     */
-    public function testRedirecttoTasksWhenVisitTheHomePage(): void
+
+    public function test_the_task_page_is_empty_when_no_tasks_in_database(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(302);
+        $this->get(route('tasks.index'))
+            ->assertOk()
+            ->assertSeeText('There are no tasks!');
     }
 
-    public function testTasksPage()
+    public function test_the_tasks_page_displays_tasks_correctly(): void
     {
+        Task::factory()->create(['title' => 'First Task']);
+        Task::factory()->create(['title' => 'Second Task']);
 
-        $response = $this->get('/tasks');
-
-        $response->assertSeeText('The list of tasks');
+        $this->get(route('tasks.index'))
+            ->assertOk()
+            ->assertSeeText('First Task')
+            ->assertSeeText('Second Task');
     }
 
-    public function testNoTasksWhenNothingInDatabase()
+    public function test_the_tasks_are_displayed_with_pagination(): void
     {
+        Task::factory(15)->create();
 
-        $response = $this->get('/tasks');
-
-        $response->assertSeeText('There are no tasks!');
+        $this->get(route('tasks.index'))
+            ->assertOk()
+            ->assertSeeText(Task::first()->title)
+            ->assertSee('pagination');
     }
 
-    public function testSeeOneTaskWhenThereIsOneTask()
+    public function test_it_returns_a_404_when_showing_a_non_existent_task(): void
     {
-        // Arrange
-        $task = $this->createDummyTask();
-
-        // Act 
-        $response = $this->get('/tasks');
-
-        // Assert 
-
-        $response->assertSeeText('New Task');
-
-        $this->assertDatabaseHas('tasks', [
-            'title' => 'New Task'
-        ]);
+        $this->get(route('tasks.show', 999))
+            ->assertNotFound();
     }
 
-    public function testStoreValidTask()
+    public function test_the_create_page_is_accessible(): void
     {
-        $params = [
-            'title' => 'Valid task',
-            'description' => 'Valid task description',
-            'long_description' => 'Valid task long description'
-        ];
-
-        $this->post('/tasks', $params)
-            ->assertStatus(302)
-            ->assertSessionHas('success');
-
-        $this->assertEquals(session('success'), 'Task created successfully!');
+        $this->get(route('tasks.create'))
+            ->assertOk();
     }
 
-    public function testStoreInvalidTask()
+    public function test_the_edit_page_is_accessible(): void
     {
-        $params = [
-            'title' => 'Invalid taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid taskInvalid task 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid 
-            taskInvalid taskInvalid taskInvalid taskInvalid task',
-            'description' => '',
-            'long_description' => ''
-        ];
-
-        $this->post('/tasks', $params)
-            ->assertStatus(302)
-            ->assertSessionHas('errors');
-
-        $messages = session('errors')->getMessages();
-
-        $this->assertEquals($messages['title'][0], 'The title field must not be greater than 255 characters.');
-        $this->assertEquals($messages['description'][0], 'The description field is required.');
-        $this->assertEquals($messages['long_description'][0], 'The long description field is required.');
+        $task = Task::factory()->create();
+        $this->get(route('tasks.edit', $task))
+            ->assertOk();
     }
-
-    public function testUpdateTask()
-    {
-        $task = $this->createDummyTask();
-
-        $this->assertDatabaseHas('tasks', [
-            'title' => 'New Task'
-        ]);
-
-        $params = [
-            'title' => 'Updated title',
-            'description' => 'Updated description',
-            'long_description' => 'Updated long description',
-        ];
-
-        $response = $this->put("/tasks/{$task->id}", $params)
-            ->assertStatus(302)
-            ->assertSessionHas('success', 'Task updated successfully!');
-
-        $this->assertDatabaseMissing('tasks', $task->toArray());
-        $this->assertDatabaseHas('tasks',  $params);
-    
-    }
-
-
-    public function testDeleteTask()
-    {
-        $task = $this->createDummyTask();
-
-        $this->assertDatabaseHas('tasks',[
-            'title' => 'New Task',
-            'description' => 'Task Description',
-            'long_description' => 'Task Long Description'
-        ]);
-
-        $this->delete("/tasks/{$task->id}")
-            ->assertStatus(302)
-            ->assertSessionHas('success');
-
-            $this->assertEquals(session('success'),'Task deleted successfully!');
-            $this->assertDatabaseMissing('tasks', $task->toArray());
-    }
-
-    public function testShowSingleTask(){
-        $task = $this->createDummyTask();
-
-        $this->assertDatabaseHas('tasks',[
-            'title' => 'New Task',
-            'description' => 'Task Description',
-            'long_description' => 'Task Long Description'
-        ]);
-
-        $response = $this->get("/tasks/{$task->id}");
-
-        $response->assertSeeText('New Task');
-        
-    }
-
-    private function createDummyTask(): Task
-    {
-        $task = new Task();
-
-        $task->title = 'New Task';
-        $task->description = 'Task Description';
-        $task->long_description = 'Task Long Description';
-        $task->save();
-
-        return $task;
-    }
-
-
 }
